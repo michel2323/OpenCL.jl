@@ -194,6 +194,9 @@ end
 # rootn(x::Float64{n}, y::Int32{n}) = @builtin_ccall("rootn", Float64{n}, (Float64{n}, Int32{n}), x, y)
 @device_function rootn(x::Float64, y::Int32) = @builtin_ccall("rootn", Float64, (Float64, Int32), x, y)
 
+# Less accurate division for Float32 than Base Julia which relies on Float64
+@device_override Base.div(x::Float32, y::Float32) = trunc(x / y)
+
 
 # TODO: half and native
 
